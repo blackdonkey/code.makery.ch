@@ -271,6 +271,7 @@ private void handleDeletePerson() {
 
 1. 下载[controlsfx-8.0.6_20.jar](https://github.com/marcojakob/tutorial-javafx-8/releases/download/v1.0/controlsfx-8.0.6_20.jar) （你也能从[ControlsFX Website](http://fxexperience.com/controlsfx/)中获取）。
 **重要：ControlsFX必须是8.0.6_20以上版本才能在`JDK8U20`以上版本工作。**
+
 2. 在项目中创建一个**lib**子目录，添加controlsf jar文件到该目录下。
 3. 添加库到你的项目**classpath**中。在Eclipse中*右击jar文件*|选择*Build Path*| *Add to Build Path*。现在Eclipse知道这个库了。
 
@@ -278,6 +279,7 @@ private void handleDeletePerson() {
 
 对`handleDeletePerson()`方法做一些修改后，不管什么时候用户没有选择表中的人员时按下删除按钮，我们能显示一个简单的对话框。
 
+**重要：对于较新版本的JRE运行时环境，使用ControlsFX-8.0.6_20.jar会抛出异常，而ControlsFX的最新版本8.40.14已经不支持Dialogs类，因此改用JavaFX自带的Alert类实现简单对话框更为方便。**
 
 ##### PersonOverviewController.java
 
@@ -292,11 +294,12 @@ private void handleDeletePerson() {
         personTable.getItems().remove(selectedIndex);
     } else {
         // Nothing selected.
-        Dialogs.create()
-            .title("No Selection")
-            .masthead("No Person Selected")
-            .message("Please select a person in the table.")
-            .showWarning();
+       Alert alert = new Alert(AlertType.INFORMATION);
+	alert.setTitle("No selection");
+	alert.setHeaderText("No Person Selected");
+	String s ="Please select a person in the table";
+	alert.setContentText(s);
+	alert.show();
     }
 }
 </pre>
